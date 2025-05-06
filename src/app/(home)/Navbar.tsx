@@ -5,36 +5,16 @@ import { cn } from '@/lib/utils';
 import { Poppins } from 'next/font/google';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { NavbarSidebar } from './NavbarSidebar';
+import { useState } from 'react';
+import { MenuIcon } from 'lucide-react';
 
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['700'],
 });
 
-const NavbarItem = ({
-  href,
-  children,
-  isActive,
-}: {
-  href: string;
-  children: React.ReactNode;
-  isActive?: boolean;
-}) => {
-  return (
-    <Button
-      asChild
-      variant='outline'
-      className={cn(
-        'bg-transparent hover:bg-transparent rounded-full hover:border-primary border-transparent px-3.5 text-lg',
-        isActive && 'bg-black text-white hover:bg-black hover:text-white'
-      )}
-    >
-      <Link href={href}>{children}</Link>
-    </Button>
-  );
-};
-
-const NavbarItems = [
+const navbarItems = [
   { href: '/', children: 'Home' },
   { href: '/about', children: 'About' },
   { href: '/features', children: 'Features' },
@@ -44,15 +24,22 @@ const NavbarItems = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
-    <div className='h-20 flex border-b justify-between font-medium bg-white'>
+    <nav className='h-20 flex border-b justify-between font-medium bg-white'>
       <Link href='/' className='pl-6 flex items-center'>
         <span className={cn('text-5xl font-semibold', poppins.className)}>
           funroad
         </span>
       </Link>
+
+      <NavbarSidebar
+        items={navbarItems}
+        open={isSidebarOpen}
+        onOpenChange={setIsSidebarOpen}
+      />
       <div className='items-center gap-4 hidden lg:flex'>
-        {NavbarItems.map((item) => (
+        {navbarItems.map((item) => (
           <NavbarItem
             key={item.href}
             href={item.href}
@@ -78,6 +65,38 @@ export const Navbar = () => {
           <Link href='/sign-up'>Start selling</Link>
         </Button>
       </div>
-    </div>
+      <div className='flex lg:hidden items-center justify-center'>
+        <Button
+          variant='ghost'
+          className='size-12 border-transparent bg-white'
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <MenuIcon />
+        </Button>
+      </div>
+    </nav>
+  );
+};
+
+const NavbarItem = ({
+  href,
+  children,
+  isActive,
+}: {
+  href: string;
+  children: React.ReactNode;
+  isActive?: boolean;
+}) => {
+  return (
+    <Button
+      asChild
+      variant='outline'
+      className={cn(
+        'bg-transparent hover:bg-transparent rounded-full hover:border-primary border-transparent px-3.5 text-lg',
+        isActive && 'bg-black text-white hover:bg-black hover:text-white'
+      )}
+    >
+      <Link href={href}>{children}</Link>
+    </Button>
   );
 };
