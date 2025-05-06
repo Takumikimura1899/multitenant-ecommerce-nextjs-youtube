@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres # 使用するイメージ (例: postgres:15 のようにバージョン指定も可能)
+    container_name: multitenant-postgres # コンテナ名
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: multitenant-ecommerce
+    ports:
+      - '127.0.0.1:5432:5432' # ホストのポート:コンテナのポート
+    volumes:
+      - db:/var/lib/postgresql/data # ボリュームのマウント
+    restart: unless-stopped # コンテナが停止した場合、手動で停止するまで再起動
+
+volumes:
+  db:
