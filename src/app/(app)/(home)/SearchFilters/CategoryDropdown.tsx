@@ -4,15 +4,16 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { Category } from '@/payload-types';
 import { useRef, useState } from 'react';
-import { useDropdownPosition } from './useDropdownPosition';
+import { useDropdownPosition } from '../useDropdownPosition';
 import Link from 'next/link';
+import { CustomCategory } from '../types';
 
 export const CategoryDropdown = ({
   category,
   isActive,
   isNavigationHovered,
 }: {
-  category: Category;
+  category: CustomCategory;
   isActive?: boolean;
   isNavigationHovered?: boolean;
 }) => {

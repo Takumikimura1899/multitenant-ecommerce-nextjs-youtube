@@ -4,6 +4,7 @@ import { SearchFilters } from './SearchFilters';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 import { Category } from '@/payload-types';
+import type { CustomCategory } from './types';
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const payload = await getPayload({
@@ -26,7 +27,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       ...(doc as Category),
       subcategories: undefined,
     })),
-  }));
+  })) satisfies CustomCategory[];
   return (
     <div className='flex flex-col min-h-screen'>
       <Navbar />
