@@ -6,7 +6,7 @@ import type { Category } from '@/payload-types';
 import { useRef, useState } from 'react';
 import { useDropdownPosition } from '../useDropdownPosition';
 import Link from 'next/link';
-import { CustomCategory } from '../types';
+import type { CustomCategory } from '../types';
 
 export const CategoryDropdown = ({
   category,
@@ -48,7 +48,9 @@ export const CategoryDropdown = ({
               'bg-white border-primary hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-[4px] hover:-translate-y-[4px]'
           )}
         >
-          {category.name}
+          <Link href={`/${category.slug === 'all' ? '' : category.slug}`}>
+            {category.name}
+          </Link>
         </Button>
         {category.subcategories && category.subcategories.length > 0 && (
           <div
@@ -74,7 +76,7 @@ const SubcategoryMenu = ({
   isOpen,
   position,
 }: {
-  category: Category;
+  category: CustomCategory;
   isOpen: boolean;
   position: { top: number; left: number };
 }) => {
@@ -101,7 +103,7 @@ const SubcategoryMenu = ({
           {category.subcategories?.map((subcategory: Category) => (
             <Link
               key={subcategory.slug}
-              href='/'
+              href={`/${category.slug}/${subcategory.slug}`}
               className='w-full text-left p-4 hover:bg-black hover:text-white flex justify-between items-center underline font-medium'
             >
               {subcategory.name}

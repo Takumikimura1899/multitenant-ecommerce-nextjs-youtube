@@ -19,6 +19,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         exists: false,
       },
     },
+    sort: 'name',
   });
 
   const formattedData = data.docs.map((doc) => ({
