@@ -11,16 +11,17 @@ import {
 } from '@/components/ui/sheet';
 
 import type { CustomCategory } from '../types';
+import { trpc } from '@/trpc/client';
 
 export const CategorySidebar = ({
   open,
   onOpenChange,
-  data,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: CustomCategory[];
 }) => {
+  const { data } = trpc.categories.getMany.useQuery();
+
   const [parentCategories, setParentCategories] = useState<
     CustomCategory[] | null
   >(null);

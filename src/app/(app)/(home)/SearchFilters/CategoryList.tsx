@@ -60,11 +60,7 @@ export const CategoryList = ({ data }: { data: CustomCategory[] }) => {
   return (
     <div className='relative w-full'>
       {/* Category Sidebar */}
-      <CategorySidebar
-        open={isSidebarOpen}
-        onOpenChange={setIsSidebarOpen}
-        data={data}
-      />
+      <CategorySidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
 
       {/* Hidden div to measure all items */}
       <div
