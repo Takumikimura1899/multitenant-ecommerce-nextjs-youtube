@@ -8,11 +8,12 @@ import { cn } from '@/lib/utils';
 import { CategorySidebar } from './CategorySidebar';
 
 import { useEffect, useRef, useState } from 'react';
-import type { CustomCategory } from '../types';
+
+import type { CategoriesGetManyOutput } from '@/modules/categories/types';
 
 const ACTIVE_CATEGORY_SLUG = 'all';
 
-export const CategoryList = ({ data }: { data: CustomCategory[] }) => {
+export const CategoryList = ({ data }: { data: CategoriesGetManyOutput }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);

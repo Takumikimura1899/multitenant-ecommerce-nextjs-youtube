@@ -10,8 +10,8 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-import type { CustomCategory } from '../types';
 import { trpc } from '@/trpc/client';
+import type { CategoriesGetManyOutput } from '@/modules/categories/types';
 
 export const CategorySidebar = ({
   open,
@@ -22,11 +22,11 @@ export const CategorySidebar = ({
 }) => {
   const { data } = trpc.categories.getMany.useQuery();
 
-  const [parentCategories, setParentCategories] = useState<
-    CustomCategory[] | null
+  const [parentCategories, setParentCategories] =
+    useState<CategoriesGetManyOutput | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoriesGetManyOutput[number] | null
   >(null);
-  const [selectedCategory, setSelectedCategory] =
-    useState<CustomCategory | null>(null);
   const router = useRouter();
 
   const currentCategories = parentCategories ?? data ?? [];
@@ -37,9 +37,9 @@ export const CategorySidebar = ({
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CustomCategory) => {
+  const handleCategoryClick = (category: CategoriesGetManyOutput[number]) => {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CustomCategory[]);
+      setParentCategories(category.subcategories as CategoriesGetManyOutput);
       setSelectedCategory(category);
     } else {
       if (parentCategories && selectedCategory) {

@@ -6,14 +6,14 @@ import type { Category } from '@/payload-types';
 import { useRef, useState } from 'react';
 import { useDropdownPosition } from '../useDropdownPosition';
 import Link from 'next/link';
-import type { CustomCategory } from '../types';
+import type { CategoriesGetManyOutput } from '@/modules/categories/types';
 
 export const CategoryDropdown = ({
   category,
   isActive,
   isNavigationHovered,
 }: {
-  category: CustomCategory;
+  category: CategoriesGetManyOutput[number];
   isActive?: boolean;
   isNavigationHovered?: boolean;
 }) => {
@@ -76,7 +76,7 @@ const SubcategoryMenu = ({
   isOpen,
   position,
 }: {
-  category: CustomCategory;
+  category: CategoriesGetManyOutput[number];
   isOpen: boolean;
   position: { top: number; left: number };
 }) => {
