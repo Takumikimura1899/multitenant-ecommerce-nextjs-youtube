@@ -22,8 +22,9 @@ export const CategorySidebar = ({
 }) => {
   const { data } = trpc.categories.getMany.useQuery();
 
-  const [parentCategories, setParentCategories] =
-    useState<CategoriesGetManyOutput | null>(null);
+  const [parentCategories, setParentCategories] = useState<
+    CategoriesGetManyOutput[number]['subcategories'] | null
+  >(null);
   const [selectedCategory, setSelectedCategory] = useState<
     CategoriesGetManyOutput[number] | null
   >(null);
@@ -37,10 +38,14 @@ export const CategorySidebar = ({
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CategoriesGetManyOutput[number]) => {
+  const handleCategoryClick = (
+    category:
+      | CategoriesGetManyOutput[number]
+      | CategoriesGetManyOutput[number]['subcategories'][number]
+  ) => {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CategoriesGetManyOutput);
-      setSelectedCategory(category);
+      setParentCategories(category.subcategories || null);
+      setSelectedCategory(category as CategoriesGetManyOutput[number]);
     } else {
       if (parentCategories && selectedCategory) {
         router.push(`/${selectedCategory.slug}/${category.slug}`);
