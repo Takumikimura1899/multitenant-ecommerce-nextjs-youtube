@@ -5,6 +5,7 @@ import { Category } from '@/payload-types';
 import z from 'zod';
 import { TRPCError } from '@trpc/server';
 import { AUTH_COOKIE } from '../constants';
+import { registerSchema } from '../schemas';
 
 export const authRouter = createTRPCRouter({
   session: baseProcedure.query(async ({ ctx }) => {
@@ -19,25 +20,7 @@ export const authRouter = createTRPCRouter({
     cookies.delete(AUTH_COOKIE);
   }),
   register: baseProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        password: z.string().min(6),
-        username: z
-          .string()
-          .min(3, 'Username must be at least 3 characters')
-          .max(63, 'Username must be less than 63 characters')
-          .regex(
-            /^[a-zA-Z0-9_]+$/,
-            'Username can only contain letters, numbers, and underscores'
-          )
-          .refine(
-            (val) => !val.includes('--'),
-            'Username cannot contain consecutive hyphens'
-          )
-          .transform((val) => val.toLowerCase()),
-      })
-    )
+    .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
       await ctx.db.create({
         collection: 'users',
